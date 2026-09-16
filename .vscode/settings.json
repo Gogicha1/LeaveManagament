@@ -1,0 +1,19 @@
+{
+    "files.exclude": {
+        "**/bin": true,
+        "**/obj": true,
+        "**/.vs": true
+    },
+    "search.exclude": {
+        "**/bin": true,
+        "**/obj": true,
+        "**/wwwroot/lib": true
+    },
+    "explorer.fileNesting.enabled": true,
+    "explorer.fileNesting.expand": false,
+    "explorer.fileNesting.patterns": {
+        "*.csproj": "*.csproj.user, appsettings*.json, launchSettings.json",
+        "*.cshtml": "${capture}.cshtml.cs, ${capture}.cshtml.css",
+        "appsettings.json": "appsettings.*.json"
+    }
+}

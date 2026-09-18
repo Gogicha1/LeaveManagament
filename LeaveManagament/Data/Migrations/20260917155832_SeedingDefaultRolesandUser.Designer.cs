@@ -12,18 +12,44 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace LeaveManagament.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20251221160229_InitialCreate")]
-    partial class InitialCreate
+    [Migration("20260917155832_SeedingDefaultRolesandUser")]
+    partial class SeedingDefaultRolesandUser
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "10.0.1")
+                .HasAnnotation("ProductVersion", "10.0.8")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
+
+            modelBuilder.Entity("LeaveManagament.Data.LeaveType", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<DateTime>("DateCreated")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime>("DateModified")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(100)");
+
+                    b.Property<int>("NumberOfDays")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("LeaveTypes");
+                });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
                 {
@@ -50,6 +76,29 @@ namespace LeaveManagament.Migrations
                         .HasFilter("[NormalizedName] IS NOT NULL");
 
                     b.ToTable("AspNetRoles", (string)null);
+
+                    b.HasData(
+                        new
+                        {
+                            Id = "cbd2865a-8774-4514-927d-125b9b71ba84",
+                            ConcurrencyStamp = "7d55f371-4acd-4d63-a1fd-420489b3be2d",
+                            Name = "Employee",
+                            NormalizedName = "EMPLOYEE"
+                        },
+                        new
+                        {
+                            Id = "4d6877fe-c183-4d55-80d6-2e53cfc87273",
+                            ConcurrencyStamp = "64e3d12e-c8a1-486f-8c33-9384e55d2951",
+                            Name = "Supervisor",
+                            NormalizedName = "SUPERVISOR"
+                        },
+                        new
+                        {
+                            Id = "ee3106d3-f7fe-4a40-aa30-73bdbf8730f8",
+                            ConcurrencyStamp = "89d38a6a-f9ec-48a7-8267-b1bf12111b54",
+                            Name = "Administrator",
+                            NormalizedName = "ADMINISTRATOR"
+                        });
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -140,6 +189,24 @@ namespace LeaveManagament.Migrations
                         .HasFilter("[NormalizedUserName] IS NOT NULL");
 
                     b.ToTable("AspNetUsers", (string)null);
+
+                    b.HasData(
+                        new
+                        {
+                            Id = "0bf3f41f-9b52-4233-918c-7e9d16177850",
+                            AccessFailedCount = 0,
+                            ConcurrencyStamp = "d0242dd8-335d-4363-8cea-f40600065882",
+                            Email = "admin@localhost.com",
+                            EmailConfirmed = true,
+                            LockoutEnabled = false,
+                            NormalizedEmail = "ADMIN@LOCALHOST.COM",
+                            NormalizedUserName = "ADMIN@LOCALHOST.COM",
+                            PasswordHash = "AQAAAAIAAYagAAAAEA9fL7HUHhLKG7f1iGrs5Y7dUjEUYbRzwxTAfFNCG5Vi85n5OI5yXHJQJKnQAG8Rkg==",
+                            PhoneNumberConfirmed = false,
+                            SecurityStamp = "15b3fb44-a359-4ea3-9c82-2e4f6e7edf3a",
+                            TwoFactorEnabled = false,
+                            UserName = "admin@localhost.com"
+                        });
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.ApplicationUserClaim<string>", b =>
@@ -202,6 +269,13 @@ namespace LeaveManagament.Migrations
                     b.HasIndex("RoleId");
 
                     b.ToTable("AspNetUserRoles", (string)null);
+
+                    b.HasData(
+                        new
+                        {
+                            UserId = "0bf3f41f-9b52-4233-918c-7e9d16177850",
+                            RoleId = "ee3106d3-f7fe-4a40-aa30-73bdbf8730f8"
+                        });
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.ApplicationUserToken<string>", b =>

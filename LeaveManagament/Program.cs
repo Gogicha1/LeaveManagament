@@ -21,7 +21,17 @@ builder.Services.AddDefaultIdentity<ApplicationUser>(options => options.SignIn.R
 builder.Services.AddControllersWithViews();
 
 builder.Services.AddScoped<ILeaveTypeServices, LeaveTypeServices>();
-builder.Services.AddTransient<IEmailSender, EmailSender>();
+builder.Services.AddScoped<ILeaveRequestServices, LeaveRequestServices>();
+builder.Services.AddHttpContextAccessor();
+if (builder.Environment.IsDevelopment())
+{
+    // Avoids a 500 on registration/password-reset when no local SMTP server is running.
+    builder.Services.AddTransient<IEmailSender, ConsoleEmailSender>();
+}
+else
+{
+    builder.Services.AddTransient<IEmailSender, EmailSender>();
+}
 
 builder.Services.AddAutoMapper(cfg => cfg.AddMaps(Assembly.GetExecutingAssembly()));
 var app = builder.Build();

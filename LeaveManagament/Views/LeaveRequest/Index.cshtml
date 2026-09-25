@@ -1,0 +1,83 @@
+@model EmployeeLeaveRequestsVM
+
+@{
+    ViewData["Title"] = "My Leave";
+}
+
+<h1>My Leave</h1>
+
+<partial name="_Alerts" />
+
+<p>
+    <a asp-action="Create" class="btn btn-success">Request Leave</a>
+</p>
+
+<h4>Balance for @DateTime.Today.Year</h4>
+<table class="table table-sm w-auto">
+    <thead>
+        <tr>
+            <th>Leave Type</th>
+            <th>Allowed Days</th>
+            <th>Requested / Approved Days</th>
+            <th>Remaining Days</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var balance in Model.Balances)
+        {
+            <tr>
+                <td>@balance.LeaveTypeName</td>
+                <td>@balance.AllowedDays</td>
+                <td>@balance.UsedDays</td>
+                <td>@balance.RemainingDays</td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<h4>My Requests</h4>
+@if (!Model.Requests.Any())
+{
+    <p>You have not requested any leave yet.</p>
+}
+else
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Leave Type</th>
+                <th>Start Date</th>
+                <th>End Date</th>
+                <th>Days</th>
+                <th>Requested On</th>
+                <th>My Comments</th>
+                <th>Status</th>
+                <th>Reviewer Comments</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var request in Model.Requests)
+            {
+                <tr>
+                    <td>@request.LeaveTypeName</td>
+                    <td>@request.StartDate.ToString("dd MMM yyyy")</td>
+                    <td>@request.EndDate.ToString("dd MMM yyyy")</td>
+                    <td>@request.NumberOfDays</td>
+                    <td>@request.DateRequested.ToString("dd MMM yyyy")</td>
+                    <td>@request.RequestComments</td>
+                    <td><partial name="_LeaveRequestStatus" model="request.Status" /></td>
+                    <td>@request.ReviewComments</td>
+                    <td>
+                        @if (request.CanBeCanceled)
+                        {
+                            <form asp-action="Cancel" asp-route-id="@request.Id" method="post">
+                                <button type="submit" class="btn btn-sm btn-danger">Cancel</button>
+                            </form>
+                        }
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}

@@ -29,6 +29,18 @@
                         <li class="nav-item">
                             <a class="nav-link text-light" asp-area="" asp-controller="LeaveType" asp-action="Index">Leave Types</a>
                         </li>
+                        @if (User.Identity?.IsAuthenticated == true)
+                        {
+                            <li class="nav-item">
+                                <a class="nav-link text-light" asp-area="" asp-controller="LeaveRequest" asp-action="Index">My Leave</a>
+                            </li>
+                        }
+                        @if (User.IsInRole("Supervisor") || User.IsInRole("Administrator"))
+                        {
+                            <li class="nav-item">
+                                <a class="nav-link text-light" asp-area="" asp-controller="LeaveRequest" asp-action="ListRequests">Leave Requests</a>
+                            </li>
+                        }
                     </ul>
                     <partial name="_LoginPartial" />
                 </div> 

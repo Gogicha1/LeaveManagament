@@ -62,8 +62,27 @@ namespace LeaveManagament.Data
                     UserId = "0bf3f41f-9b52-4233-918c-7e9d16177850"
                 }
             );
+
+            builder.Entity<LeaveType>().HasData(
+                new LeaveType
+                {
+                    Id = 1,
+                    Name = "Vacation",
+                    NumberOfDays = 24,
+                    DateCreated = new DateTime(2026, 1, 1),
+                    DateModified = new DateTime(2026, 1, 1)
+                },
+                new LeaveType
+                {
+                    Id = 2,
+                    Name = "Sick Leave",
+                    NumberOfDays = 10,
+                    DateCreated = new DateTime(2026, 1, 1),
+                    DateModified = new DateTime(2026, 1, 1)
+                });
         }
 
         public DbSet<LeaveType> LeaveTypes { get; set; }
+        public DbSet<LeaveRequest> LeaveRequests { get; set; }
     }
 }

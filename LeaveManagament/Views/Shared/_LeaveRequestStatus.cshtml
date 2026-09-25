@@ -1,0 +1,13 @@
+@model LeaveManagament.Data.LeaveRequestStatus
+
+@* Shows a leave request status as a coloured badge, the same way on every screen. *@
+@{
+    var (badgeClass, label) = Model switch
+    {
+        LeaveRequestStatus.Approved => ("bg-success", "Approved"),
+        LeaveRequestStatus.Declined => ("bg-danger", "Rejected"),
+        LeaveRequestStatus.Canceled => ("bg-secondary", "Cancelled"),
+        _ => ("bg-warning text-dark", "Pending")
+    };
+}
+<span class="badge @badgeClass">@label</span>

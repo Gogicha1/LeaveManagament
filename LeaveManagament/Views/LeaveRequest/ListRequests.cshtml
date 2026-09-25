@@ -1,0 +1,52 @@
+@model IEnumerable<LeaveRequestReviewVM>
+
+@{
+    ViewData["Title"] = "Leave Requests";
+}
+
+<h1>Leave Requests</h1>
+
+<partial name="_Alerts" />
+
+@if (!Model.Any())
+{
+    <p>No employee has requested leave yet.</p>
+}
+else
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Employee</th>
+                <th>Leave Type</th>
+                <th>Start Date</th>
+                <th>End Date</th>
+                <th>Days</th>
+                <th>Requested On</th>
+                <th>Status</th>
+                <th>Reviewed By</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var request in Model)
+            {
+                <tr>
+                    <td>@request.EmployeeName</td>
+                    <td>@request.LeaveTypeName</td>
+                    <td>@request.StartDate.ToString("dd MMM yyyy")</td>
+                    <td>@request.EndDate.ToString("dd MMM yyyy")</td>
+                    <td>@request.NumberOfDays</td>
+                    <td>@request.DateRequested.ToString("dd MMM yyyy")</td>
+                    <td><partial name="_LeaveRequestStatus" model="request.Status" /></td>
+                    <td>@request.ReviewerName</td>
+                    <td>
+                        <a asp-action="Review" asp-route-id="@request.Id" class="btn btn-sm btn-info">
+                            @(request.Status == LeaveManagament.Data.LeaveRequestStatus.Pending ? "Review" : "Details")
+                        </a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
